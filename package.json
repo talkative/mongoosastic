@@ -2,7 +2,7 @@
   "author": "James R. Carr <james.r.carr@gmail.com> (http://blog.james-carr.org)",
   "name": "mongoosastic",
   "description": "A mongoose plugin that indexes models into elastic search",
-  "version": "4.4.1",
+  "version": "5.0.0",
   "tags": [
     "mongodb",
     "elasticsearch",
@@ -14,35 +14,37 @@
     "type": "git",
     "url": "git://github.com/mongoosastic/mongoosastic"
   },
-  "main": "lib/mongoosastic.js",
+  "main": "dist/index.js",
+  "types": "index.d.ts",
   "dependencies": {
-    "elasticsearch": "13.3.0",
-    "lodash.clonedeep": "4.5.0"
+    "@elastic/elasticsearch": "7.15.0",
+    "lodash": "4.17.21",
+    "mongoose": "6.0.13"
   },
   "devDependencies": {
-    "async": "2.5.0",
-    "changelog": "^1.0.7",
-    "co-mocha": "^1.1.3",
-    "coveralls": "2.13.1",
-    "eslint": "4.4.1",
-    "eslint-config-standard": "6.2.1",
-    "eslint-plugin-promise": "3.5.0",
-    "eslint-plugin-standard": "3.0.1",
-    "istanbul": "0.4.5",
-    "mocha": "3.2.0",
-    "should": "12.0.0",
-    "mongoose": "4.11.8",
-    "standard": "10.0.3"
-  },
-  "engines": {
-    "node": ">= 4.0"
+    "@types/jest": "27.0.2",
+    "@types/lodash": "4.14.176",
+    "@types/node": "16.11.7",
+    "@typescript-eslint/eslint-plugin": "5.3.1",
+    "@typescript-eslint/parser": "5.3.1",
+    "coveralls": "3.1.1",
+    "eslint": "8.2.0",
+    "jest": "26.6.3",
+    "ts-jest": "26.5.6",
+    "ts-node": "10.4.0",
+    "tslib": "2.3.1",
+    "typescript": "4.4.4"
   },
   "scripts": {
     "authors": "./scripts/update_authors.sh",
+    "prepare": "npm run build",
+    "build": "rm -rf dist && tsc -p . ",
+    "lint-fix": "npm run lint -- --fix",
     "lint": "eslint lib test",
-    "mocha": "mocha test/*-test.js",
-    "test": "npm run lint && istanbul cover _mocha --report lcovonly -- test/*-test.js",
-    "coverage": "cat ./coverage/lcov.info | coveralls",
+    "jest": "jest --detectOpenHandles --runInBand",
+    "test": "npm run lint && npm run jest",
+    "coverage": "npm run test -- -- --coverage",
+    "report": "cat coverage/lcov.info | coveralls",
     "changelog": "changelog mongoosastic/mongoosastic latest -m"
   },
   "license": "MIT"
